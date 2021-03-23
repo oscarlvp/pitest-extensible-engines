@@ -36,7 +36,7 @@ In this way you can focus on implementing the mutation operators without having 
 At the moment you can use 
 [InstructionReplacementOperator](./amazo/src/main/java/io/pitex/engines/amazo/InstructionReplacementOperator.java) 
 to create operators that replace one bytecode instruction by another and
-[InstructionReplacementOperator](./amazo/src/main/java/io/pitex/engines/amazo/MethodRewritingOperator.java) 
+[MethodRewritingOperator](./amazo/src/main/java/io/pitex/engines/amazo/MethodRewritingOperator.java) 
 for mutation operators that replace the body of a method. 
 
 These two abstractions cover most operators included in Gregor and Descartes.
