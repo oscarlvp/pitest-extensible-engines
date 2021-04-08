@@ -45,7 +45,7 @@ At the moment there are abstractions for the following patterns:
 - modify the result of a method, extending 
     [MethodResultOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/MethodResultOperator.java)
 
-If these mutation operator patterns do not fit your needs you can still extend [MutationOperator]((./amazo/src/main/java/io/pitex/engines/amazo/operators/MutationOperator.java)).
+If these mutation operator patterns do not fit your needs you can still extend [MutationOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/MutationOperator.java).
 
 More abstractions for mutation operators will be included in the near future to support, 
 for example, the replacement  of a sequence of bytecode instructions.
