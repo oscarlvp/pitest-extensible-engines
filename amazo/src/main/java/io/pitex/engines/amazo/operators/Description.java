@@ -1,4 +1,4 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.operators;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

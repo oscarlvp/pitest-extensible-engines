@@ -1,15 +1,14 @@
 package io.pitex.engines.amazo;
 
+import io.pitex.engines.amazo.operators.MutationOperator;
 import org.pitest.classinfo.ClassByteArraySource;
 import org.pitest.classinfo.ClassName;
 import org.pitest.mutationtest.engine.*;
-import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.reloc.asm.ClassReader;
 import org.pitest.reloc.asm.ClassWriter;
 import org.pitest.reloc.asm.tree.ClassNode;
 import org.pitest.reloc.asm.tree.MethodNode;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.function.Predicate;
 

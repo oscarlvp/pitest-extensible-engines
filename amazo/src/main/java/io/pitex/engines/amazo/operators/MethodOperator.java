@@ -1,4 +1,4 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.operators;
 
 import org.pitest.classinfo.ClassName;
 import org.pitest.mutationtest.engine.Location;
@@ -6,17 +6,17 @@ import org.pitest.mutationtest.engine.MethodName;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.reloc.asm.tree.ClassNode;
-import org.pitest.reloc.asm.tree.InsnList;
 import org.pitest.reloc.asm.tree.MethodNode;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.pitex.engines.amazo.LineTracker.firstLineOf;
+import static io.pitex.engines.amazo.code.LineTracker.firstLineOf;
 
-public abstract class MethodRewritingOperator extends MutationOperator {
+public abstract class MethodOperator extends MutationOperator {
 
     @Override
     public List<MutationDetails> findMutations(MethodNode method, ClassNode owner) {
@@ -41,12 +41,14 @@ public abstract class MethodRewritingOperator extends MutationOperator {
         );
     }
 
-    public abstract boolean canMutate(MethodNode method, ClassNode owner);
-
-    public abstract InsnList generateCode(MethodNode method, ClassNode owner);
-
-    @Override
-    public void mutate(MutationIdentifier id, MethodNode method, ClassNode owner) {
-        method.instructions = generateCode(method, owner);
+    public boolean canMutate(MethodNode method, ClassNode owner) {
+        return canPerformMutation(method) && willMutateMethod(method, owner);
     }
+
+    private boolean canPerformMutation(MethodNode method) {
+        return !(Modifier.isAbstract(method.access) || Modifier.isNative(method.access));
+    }
+
+    public abstract boolean willMutateMethod(MethodNode method, ClassNode owner);
+
 }

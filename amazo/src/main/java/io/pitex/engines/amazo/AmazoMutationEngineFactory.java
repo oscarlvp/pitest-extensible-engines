@@ -1,5 +1,6 @@
 package io.pitex.engines.amazo;
 
+import io.pitex.engines.amazo.operators.MutationOperator;
 import org.pitest.functional.prelude.Prelude;
 import org.pitest.mutationtest.EngineArguments;
 import org.pitest.mutationtest.MutationEngineFactory;
@@ -11,7 +12,6 @@ import org.pitest.util.ServiceLoader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.function.Predicate;

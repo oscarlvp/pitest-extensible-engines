@@ -1,5 +1,6 @@
 package io.pitex.engines.amazo;
 
+import io.pitex.engines.amazo.operators.MutationOperator;
 import org.pitest.classinfo.ClassByteArraySource;
 import org.pitest.mutationtest.engine.Mutater;
 import org.pitest.mutationtest.engine.MutationEngine;

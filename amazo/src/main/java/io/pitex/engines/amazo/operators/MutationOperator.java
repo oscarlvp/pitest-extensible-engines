@@ -1,6 +1,5 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.operators;
 
-import org.pitest.mutationtest.engine.Mutant;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.plugin.ClientClasspathPlugin;

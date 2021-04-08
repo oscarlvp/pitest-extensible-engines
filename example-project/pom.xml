@@ -126,6 +126,7 @@
                                 </element>
                             </additionalClasspathElements>
                             <mutators>
+                                <mutator>io.pitex.examples.EmptyVoidMethodOperator</mutator>
                                 <mutator>io.pitex.examples.AdditionReplacementOperator</mutator>
                             </mutators>
                         </configuration>

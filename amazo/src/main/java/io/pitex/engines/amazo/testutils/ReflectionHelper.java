@@ -15,6 +15,8 @@ public class ReflectionHelper {
         return new Instantiation(type);
     }
 
+    public static Instance onClass(Class<?> type) { return new Instance(type); }
+
     public static class Instantiation {
 
         private final Class<?> type;
@@ -41,16 +43,35 @@ public class ReflectionHelper {
     public static class Instance {
 
         private final Object instance;
+        private final Class<?> type;
+
+        public Instance(Object instance, Class<?> type) {
+            Objects.requireNonNull(instance, "Given instance can not be null");
+            Objects.requireNonNull(type, "Given type can not be null");
+            if(!type.isAssignableFrom(instance.getClass())) {
+                throw new AssertionError("Given instance of type " +
+                        instance.getClass().getName() +
+                        " incompatible with given type " + type.getName());
+            }
+            this.instance = instance;
+            this.type = type;
+        }
+
+        public Instance(Class<?> type) {
+            Objects.requireNonNull(type, "Type for null reference can not be null");
+            this.type = type;
+            instance = null;
+        }
 
         public Instance(Object instance) {
             Objects.requireNonNull(instance);
             this.instance = instance;
+            type = instance.getClass();
         }
 
         public Invocation invoke(String methodName, Class<?>... parameterTypes) {
-            Class<?> type = instance.getClass();
             try {
-                Method method = type.getDeclaredMethod(methodName, parameterTypes);
+                Method method = type.getMethod(methodName, parameterTypes);
                 return new Invocation(instance, method);
             } catch (NoSuchMethodException e) {
                 throw new AssertionError("Not such method " + methodName + " for type" + type.getName());
@@ -92,7 +113,6 @@ public class ReflectionHelper {
         private final Method method;
 
         public Invocation(Object receiver, Method method) {
-            Objects.requireNonNull(receiver, "Receiver of invocation can not be null");
             Objects.requireNonNull(method, "Method to invoke can not be null");
             this.receiver = receiver;
             this.method = method;

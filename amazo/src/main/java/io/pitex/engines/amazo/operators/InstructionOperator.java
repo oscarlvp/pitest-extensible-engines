@@ -1,9 +1,12 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.operators;
 
+import io.pitex.engines.amazo.code.BlockTracker;
+import io.pitex.engines.amazo.code.LineTracker;
 import org.pitest.classinfo.ClassName;
 import org.pitest.mutationtest.engine.*;
 import org.pitest.reloc.asm.tree.AbstractInsnNode;
 import org.pitest.reloc.asm.tree.ClassNode;
+import org.pitest.reloc.asm.tree.InsnList;
 import org.pitest.reloc.asm.tree.MethodNode;
 
 import java.util.ArrayList;
@@ -11,11 +14,11 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
-public abstract class InstructionReplacementOperator<T extends AbstractInsnNode> extends MutationOperator {
+public abstract class InstructionOperator<T extends AbstractInsnNode> extends MutationOperator {
 
     protected final Class<T> type;
 
-    public InstructionReplacementOperator(Class<T> type) {
+    public InstructionOperator(Class<T> type) {
         Objects.requireNonNull(type, "Instruction node type for instruction replacement can not be null");
         this.type = type;
     }
@@ -72,20 +75,25 @@ public abstract class InstructionReplacementOperator<T extends AbstractInsnNode>
 
     @Override
     public void mutate(MutationIdentifier id, MethodNode method, ClassNode owner) {
-        ListIterator<AbstractInsnNode> iterator = method.instructions.iterator();
-        while(iterator.hasNext()) {
-            int index = iterator.nextIndex();
-            AbstractInsnNode instruction = iterator.next();
 
-            if(id.getFirstIndex() == index) {
-                assert type.isAssignableFrom(instruction.getClass());
-                iterator.set(replacementFor((T)instruction, method, owner));
-            }
-        }
+        assert id.getFirstIndex() >= 0 && id.getFirstIndex() < method.instructions.size()
+                : "Wrong index  for mutation identifier"
+                ;
+
+        InsnList body = method.instructions;
+        AbstractInsnNode instruction = body.get(id.getFirstIndex());
+
+        assert type.isAssignableFrom(instruction.getClass())
+                : "Wrong type for target instruction. Expecting: " + type.getName() + " got " + instruction.getClass().getName()
+                ;
+
+        body.insertBefore(instruction, replacementFor((T)instruction, method, owner));
+        body.remove(instruction);
+
     }
 
-    public abstract boolean canMutate(T instruction, MethodNode method, ClassNode owner);
+    public abstract InsnList replacementFor(T instruction, MethodNode method, ClassNode owner);
 
-    public abstract AbstractInsnNode replacementFor(T instruction, MethodNode method, ClassNode owner);
+    public abstract boolean canMutate(T instruction, MethodNode method, ClassNode owner);
 
 }

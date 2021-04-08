@@ -1,4 +1,4 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.code;
 
 import org.pitest.reloc.asm.tree.AbstractInsnNode;
 import org.pitest.reloc.asm.tree.InsnList;

@@ -1,17 +1,17 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.operators;
 
 import org.junit.jupiter.api.Test;
-import org.pitest.classinfo.ClassName;
-import org.pitest.mutationtest.engine.Location;
 import org.pitest.mutationtest.engine.MethodName;
 import org.pitest.mutationtest.engine.MutationDetails;
-import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.reloc.asm.Opcodes;
 import org.pitest.reloc.asm.Type;
 import org.pitest.reloc.asm.tree.*;
+
 import java.util.List;
+
 import static io.pitex.engines.amazo.testutils.EngineHelper.findMutations;
 import static io.pitex.engines.amazo.testutils.EngineHelper.mutate;
+import static io.pitex.engines.amazo.testutils.MutationLocation.in;
 import static io.pitex.engines.amazo.testutils.ReflectionHelper.createInstance;
 import static io.pitex.engines.amazo.testutils.ReflectionHelper.on;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,16 +31,9 @@ class MethodRewritingOperatorTest {
     }
 
     @Test
-    void shouldPerformMutation() {
+    void shouldApplyMutation() {
         ReturnFalseOperator operator = new ReturnFalseOperator();
-             Class<?> mutant = mutate(operator, new MutationIdentifier(
-                Location.location(
-                        ClassName.fromClass(Target.class),
-                        MethodName.fromString("lessThan"),
-                        "(II)Z"),
-                1,
-                operator.identifier()
-        ));
+        Class<?> mutant = mutate(in(Target.class).method("lessThan", int.class, int.class), operator);
         Object instance = createInstance(mutant).usingDefaultConstructor();
         int first = 4, second = 7;
         Object result = on(instance).invoke("lessThan", int.class, int.class).with(first, second);
@@ -51,7 +44,7 @@ class MethodRewritingOperatorTest {
     public static class ReturnFalseOperator extends MethodRewritingOperator {
 
         @Override
-        public boolean canMutate(MethodNode method, ClassNode owner) {
+        public boolean willMutateMethod(MethodNode method, ClassNode owner) {
             return Type.getReturnType(method.desc).equals(Type.BOOLEAN_TYPE);
         }
 

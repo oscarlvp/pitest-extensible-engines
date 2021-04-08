@@ -1,4 +1,4 @@
-package io.pitex.engines.amazo;
+package io.pitex.engines.amazo.code;
 
 import org.pitest.coverage.analysis.Block;
 import org.pitest.coverage.analysis.ControlFlowAnalyser;
