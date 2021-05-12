@@ -40,6 +40,8 @@ At the moment there are abstractions for the following patterns:
     [InstructionReplacementOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/InstructionReplacementOperator.java)
 - remove a single bytecode instruction, extending 
     [InstructionRemovalOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/InstructionRemovalOperator.java)
+- replace a single bytecode instruction by a sequence of instructions, extending
+    [InstructionOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/InstructionOperator.java)
 - completely rewrite the code of a method, extending 
     [MethodRewritingOperator](./amazo/src/main/java/io/pitex/engines/amazo/operators/MethodRewritingOperator.java)
 - modify the result of a method, extending 
