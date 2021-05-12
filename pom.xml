@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <pitest.version>1.6.4</pitest.version>
+        <pitest.version>1.6.6</pitest.version>
     </properties>
 
     <licenses>
